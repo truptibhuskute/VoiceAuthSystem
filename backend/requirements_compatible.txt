@@ -1,0 +1,43 @@
+# Core Framework
+fastapi>=0.100.0
+uvicorn[standard]>=0.20.0
+python-multipart
+
+# Database
+sqlalchemy>=2.0.0
+alembic
+
+# Authentication & Security
+python-jose[cryptography]
+passlib[bcrypt]
+cryptography
+
+# Audio Processing & ML - Using latest compatible versions
+librosa
+scipy
+numpy
+soundfile
+scikit-learn
+
+# Data Processing
+pandas
+joblib
+
+# Web & HTTP
+httpx
+requests
+
+# Utilities
+python-dotenv
+pydantic>=2.0.0
+pydantic-settings
+loguru
+
+# Development & Testing
+pytest
+pytest-asyncio
+black
+flake8
+
+# Async support
+aiofiles

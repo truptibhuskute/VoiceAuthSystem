@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎙️ Voice Authentication System</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-microphone-alt"></i>
+                <h1>Voice Authentication System</h1>
+            </div>
+            <div class="status" id="connectionStatus">
+                <i class="fas fa-circle status-dot"></i>
+                <span>Connecting...</span>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="nav-tabs">
+            <button class="tab-btn active" data-tab="register">
+                <i class="fas fa-user-plus"></i> Register
+            </button>
+            <button class="tab-btn" data-tab="enroll">
+                <i class="fas fa-microphone"></i> Enroll Voice
+            </button>
+            <button class="tab-btn" data-tab="verify">
+                <i class="fas fa-lock"></i> Verify
+            </button>
+            <button class="tab-btn" data-tab="dashboard">
+                <i class="fas fa-chart-line"></i> Dashboard
+            </button>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Registration Tab -->
+            <div class="tab-content active" id="register">
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-user-plus"></i> User Registration</h2>
+                        <p>Create a new account to get started with voice authentication</p>
+                    </div>
+                    <form class="form" id="registerForm">
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" id="username" name="username" required 
+                                   placeholder="Enter your username" minlength="3" maxlength="50">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required 
+                                   placeholder="Enter your email address">
+                        </div>
+                        <div class="form-group">
+                            <label for="fullName">Full Name (Optional)</label>
+                            <input type="text" id="fullName" name="fullName" 
+                                   placeholder="Enter your full name">
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-user-plus"></i> Register User
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Voice Enrollment Tab -->
+            <div class="tab-content" id="enroll">
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-microphone"></i> Voice Enrollment</h2>
+                        <p>Record your voice to create a secure voiceprint</p>
+                    </div>
+                    <form class="form" id="enrollForm">
+                        <div class="form-group">
+                            <label for="enrollUsername">Username</label>
+                            <input type="text" id="enrollUsername" name="username" required 
+                                   placeholder="Enter your username">
+                        </div>
+                        
+                        <!-- Voice Recording Section -->
+                        <div class="voice-section">
+                            <div class="recording-area">
+                                <div class="microphone-container">
+                                    <button type="button" class="mic-btn" id="recordBtn">
+                                        <i class="fas fa-microphone"></i>
+                                    </button>
+                                    <div class="recording-status" id="recordingStatus">
+                                        <span>Click microphone to start recording</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="audio-visualization">
+                                    <canvas id="visualizer" width="400" height="100"></canvas>
+                                </div>
+                                
+                                <div class="audio-controls" id="audioControls" style="display: none;">
+                                    <audio controls id="audioPlayback"></audio>
+                                    <button type="button" class="btn btn-secondary" id="rerecordBtn">
+                                        <i class="fas fa-redo"></i> Re-record
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="recording-instructions">
+                                <h4>Recording Instructions:</h4>
+                                <ul>
+                                    <li>🎙️ Speak clearly into your microphone</li>
+                                    <li>⏱️ Record for 3-5 seconds minimum</li>
+                                    <li>🔊 Say a phrase like "My voice is my password"</li>
+                                    <li>🌟 Ensure good audio quality for best results</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary" id="enrollSubmitBtn" disabled>
+                            <i class="fas fa-upload"></i> Enroll Voice
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Voice Verification Tab -->
+            <div class="tab-content" id="verify">
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-lock"></i> Voice Verification</h2>
+                        <p>Authenticate using your voice</p>
+                    </div>
+                    <form class="form" id="verifyForm">
+                        <div class="form-group">
+                            <label for="verifyUsername">Username</label>
+                            <input type="text" id="verifyUsername" name="username" required 
+                                   placeholder="Enter your username">
+                        </div>
+                        
+                        <!-- Voice Recording Section for Verification -->
+                        <div class="voice-section">
+                            <div class="recording-area">
+                                <div class="microphone-container">
+                                    <button type="button" class="mic-btn" id="verifyRecordBtn">
+                                        <i class="fas fa-microphone"></i>
+                                    </button>
+                                    <div class="recording-status" id="verifyRecordingStatus">
+                                        <span>Click microphone to authenticate</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="audio-visualization">
+                                    <canvas id="verifyVisualizer" width="400" height="100"></canvas>
+                                </div>
+                                
+                                <div class="audio-controls" id="verifyAudioControls" style="display: none;">
+                                    <audio controls id="verifyAudioPlayback"></audio>
+                                    <button type="button" class="btn btn-secondary" id="verifyRerecordBtn">
+                                        <i class="fas fa-redo"></i> Re-record
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-success" id="verifySubmitBtn" disabled>
+                            <i class="fas fa-shield-alt"></i> Verify Identity
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Dashboard Tab -->
+            <div class="tab-content" id="dashboard">
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-chart-line"></i> System Status</h2>
+                        </div>
+                        <div class="status-grid" id="systemStatus">
+                            <div class="status-item">
+                                <i class="fas fa-server"></i>
+                                <span>Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-history"></i> Recent Activity</h2>
+                        </div>
+                        <div class="activity-list" id="activityList">
+                            <p>No recent activity</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Notification Area -->
+        <div class="notification-container" id="notifications"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
