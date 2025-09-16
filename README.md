@@ -178,7 +178,7 @@ For issues or questions:
 
 ## 📄 License
 
-This project is for educational and demonstration purposes. Please ensure compliance with local privacy and biometric data regulations in production use.
+
 
 ---
 
